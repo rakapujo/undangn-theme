@@ -2,12 +2,14 @@
 /**
  * Undangan Theme — bootstrap.
  *
+ * File ini sengaja dibuat tipis. Semua logika theme ada di inc/Theme.php
+ * dan dimuat lewat Composer PSR-4 autoload (namespace Mengundang\Theme\).
+ *
  * @package Mengundang\Theme
  */
 
 declare(strict_types=1);
 
-// Guard: cegah akses langsung.
 defined( 'ABSPATH' ) || exit;
 
 /**
@@ -18,29 +20,25 @@ define( 'MGU_THEME_DIR', __DIR__ );
 define( 'MGU_THEME_URI', get_template_directory_uri() );
 
 /**
- * Composer autoload (akan ada setelah `composer install`).
- * Untuk sekarang, file ini di-skip kalau belum ada.
+ * Composer autoload — wajib ada untuk PSR-4 namespace.
+ * Kalau tidak ada, theme tidak bisa boot.
  */
 $mgu_autoload = MGU_THEME_DIR . '/vendor/autoload.php';
-if ( is_readable( $mgu_autoload ) ) {
-	require_once $mgu_autoload;
+if ( ! is_readable( $mgu_autoload ) ) {
+	add_action(
+		'admin_notices',
+		static function (): void {
+			echo '<div class="notice notice-error"><p><strong>Undangan theme:</strong> ';
+			echo esc_html__( 'Composer autoload tidak ditemukan. Jalankan `composer install` di root theme.', 'undangan' );
+			echo '</p></div>';
+		}
+	);
+	return;
 }
+require_once $mgu_autoload;
 unset( $mgu_autoload );
 
 /**
- * Bootstrap theme — akan dipindah ke Mengundang\Theme\Theme::boot()
- * setelah Composer + PSR-4 autoload aktif.
+ * Boot theme.
  */
-add_action(
-	'after_setup_theme',
-	static function (): void {
-		// Initial theme supports — akan dipindah ke inc/Setup/ThemeSupports.php nanti.
-		add_theme_support( 'wp-block-styles' );
-		add_theme_support( 'editor-styles' );
-		add_theme_support( 'responsive-embeds' );
-		add_theme_support( 'html5', array( 'search-form', 'gallery', 'caption', 'script', 'style' ) );
-		add_theme_support( 'post-thumbnails' );
-
-		load_theme_textdomain( 'undangan', MGU_THEME_DIR . '/languages' );
-	}
-);
+\Mengundang\Theme\Theme::boot();
