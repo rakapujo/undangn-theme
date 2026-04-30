@@ -1,0 +1,25 @@
+// Mirror dari theme.json — pakai CSS custom properties yang di-generate WP
+// agar konsisten antara block editor preview & frontend.
+// CLAUDE.md Bagian 4.4: TIDAK BOLEH hardcode warna/spacing.
+// Selalu pakai var(--wp--preset--*) yang otomatis ada karena theme.json.
+
+@mixin breakpoint-tablet {
+
+	@media (min-width: 768px) {
+		@content;
+	}
+}
+
+@mixin breakpoint-desktop {
+
+	@media (min-width: 1024px) {
+		@content;
+	}
+}
+
+@mixin breakpoint-wide {
+
+	@media (min-width: 1280px) {
+		@content;
+	}
+}

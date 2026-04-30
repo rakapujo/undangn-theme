@@ -1,0 +1,21 @@
+@use "partials/tokens" as *;
+
+// Core frontend styles untuk semua undangan.
+// Style spesifik per fitur (gallery, countdown, dll) ada di file terpisah.
+
+body.single-undangan {
+	background-color: var(--wp--preset--color--background);
+	color: var(--wp--preset--color--primary);
+	font-family: var(--wp--preset--font-family--body);
+	line-height: 1.6;
+}
+
+.undangan-container {
+	max-width: var(--wp--style--global--content-size);
+	margin-inline: auto;
+	padding-inline: var(--wp--preset--spacing--40);
+
+	@include breakpoint-tablet {
+		padding-inline: var(--wp--preset--spacing--60);
+	}
+}
