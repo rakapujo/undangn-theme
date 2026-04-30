@@ -9,6 +9,7 @@ declare(strict_types=1);
 
 namespace Mengundang\Theme;
 
+use Mengundang\Theme\PostTypes\UndanganCPT;
 use Mengundang\Theme\Setup\Enqueue;
 use Mengundang\Theme\Setup\ThemeSupports;
 
@@ -41,11 +42,19 @@ final class Theme {
 	public readonly Enqueue $enqueue;
 
 	/**
+	 * Post type 'undangan'.
+	 *
+	 * @var UndanganCPT
+	 */
+	public readonly UndanganCPT $undanganCPT;
+
+	/**
 	 * Private constructor — instansiasi sub-module.
 	 */
 	private function __construct() {
 		$this->themeSupports = new ThemeSupports();
 		$this->enqueue       = new Enqueue();
+		$this->undanganCPT   = new UndanganCPT();
 	}
 
 	/**
@@ -83,5 +92,6 @@ final class Theme {
 	private function registerHooks(): void {
 		add_action( 'after_setup_theme', array( $this->themeSupports, 'register' ) );
 		add_action( 'wp_enqueue_scripts', array( $this->enqueue, 'enqueueFrontend' ) );
+		add_action( 'init', array( $this->undanganCPT, 'register' ) );
 	}
 }
