@@ -10,6 +10,8 @@ declare(strict_types=1);
 namespace Mengundang\Theme;
 
 use Mengundang\Theme\PostTypes\UndanganCPT;
+use Mengundang\Theme\Routing\RewriteRules;
+use Mengundang\Theme\Routing\SubdomainRouter;
 use Mengundang\Theme\Setup\Enqueue;
 use Mengundang\Theme\Setup\ThemeSupports;
 
@@ -49,12 +51,28 @@ final class Theme {
 	public readonly UndanganCPT $undanganCPT;
 
 	/**
+	 * Subdomain detector.
+	 *
+	 * @var SubdomainRouter
+	 */
+	public readonly SubdomainRouter $subdomainRouter;
+
+	/**
+	 * Custom routing handler.
+	 *
+	 * @var RewriteRules
+	 */
+	public readonly RewriteRules $rewriteRules;
+
+	/**
 	 * Private constructor — instansiasi sub-module.
 	 */
 	private function __construct() {
-		$this->themeSupports = new ThemeSupports();
-		$this->enqueue       = new Enqueue();
-		$this->undanganCPT   = new UndanganCPT();
+		$this->themeSupports   = new ThemeSupports();
+		$this->enqueue         = new Enqueue();
+		$this->undanganCPT     = new UndanganCPT();
+		$this->subdomainRouter = new SubdomainRouter();
+		$this->rewriteRules    = new RewriteRules( $this->subdomainRouter );
 	}
 
 	/**
@@ -93,5 +111,6 @@ final class Theme {
 		add_action( 'after_setup_theme', array( $this->themeSupports, 'register' ) );
 		add_action( 'wp_enqueue_scripts', array( $this->enqueue, 'enqueueFrontend' ) );
 		add_action( 'init', array( $this->undanganCPT, 'register' ) );
+		add_action( 'parse_request', array( $this->rewriteRules, 'handleParseRequest' ) );
 	}
 }

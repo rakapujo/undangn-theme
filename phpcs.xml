@@ -28,6 +28,8 @@
         <exclude name="WordPress.NamingConventions.ValidFunctionName.MethodNameInvalid"/>
         <exclude name="WordPress.NamingConventions.ValidVariableName.UsedPropertyNotSnakeCase"/>
         <exclude name="WordPress.NamingConventions.ValidVariableName.PropertyNotSnakeCase"/>
+        <exclude name="WordPress.NamingConventions.ValidVariableName.VariableNotSnakeCase"/>
+        <exclude name="WordPress.NamingConventions.ValidVariableName.UsedVariableNotSnakeCase"/>
         <!-- Prefix mgu/MGU sengaja dipilih singkat (3 char) sesuai CLAUDE.md Bagian 4.1.
              WPCS standar minta minimum 4 char, kita override karena:
              - Namespace PSR-4 Mengundang\Theme\ sudah jadi proteksi utama
