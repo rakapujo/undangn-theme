@@ -13,6 +13,7 @@ use Mengundang\Theme\PostTypes\UndanganCPT;
 use Mengundang\Theme\Routing\RewriteRules;
 use Mengundang\Theme\Routing\SubdomainRouter;
 use Mengundang\Theme\Setup\Enqueue;
+use Mengundang\Theme\Setup\RewriteFlush;
 use Mengundang\Theme\Setup\ThemeSupports;
 
 defined( 'ABSPATH' ) || exit;
@@ -65,6 +66,13 @@ final class Theme {
 	public readonly RewriteRules $rewriteRules;
 
 	/**
+	 * Auto-flush rewrite rules on version bump.
+	 *
+	 * @var RewriteFlush
+	 */
+	public readonly RewriteFlush $rewriteFlush;
+
+	/**
 	 * Private constructor — instansiasi sub-module.
 	 */
 	private function __construct() {
@@ -73,6 +81,7 @@ final class Theme {
 		$this->undanganCPT     = new UndanganCPT();
 		$this->subdomainRouter = new SubdomainRouter();
 		$this->rewriteRules    = new RewriteRules( $this->subdomainRouter );
+		$this->rewriteFlush    = new RewriteFlush();
 	}
 
 	/**
@@ -111,6 +120,7 @@ final class Theme {
 		add_action( 'after_setup_theme', array( $this->themeSupports, 'register' ) );
 		add_action( 'wp_enqueue_scripts', array( $this->enqueue, 'enqueueFrontend' ) );
 		add_action( 'init', array( $this->undanganCPT, 'register' ) );
+		add_action( 'init', array( $this->rewriteFlush, 'maybeFlush' ), 99 );
 		add_action( 'parse_request', array( $this->rewriteRules, 'handleParseRequest' ) );
 	}
 }
