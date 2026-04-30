@@ -1,0 +1,43 @@
+# Dependencies
+/node_modules/
+/vendor/
+
+# Build output
+/build/
+
+# Env & secrets
+.env
+.env.local
+.env.*.local
+*.key
+*.pem
+
+# Editor / OS
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+*.swp
+*.swo
+
+# Logs
+*.log
+debug.log
+error_log
+
+# Test coverage
+/coverage/
+.phpunit.result.cache
+.phpunit.cache/
+
+# Cache
+.cache/
+.eslintcache
+.stylelintcache
+
+# OS upload (debug)
+*.bak
+*.tmp
+~$*

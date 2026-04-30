@@ -1,0 +1,46 @@
+{
+  "name": "undangan-theme",
+  "version": "0.1.0",
+  "description": "SaaS undangan digital — block theme dengan custom routing subdomain *.mengundang.mu",
+  "private": true,
+  "license": "UNLICENSED",
+  "engines": {
+    "node": ">=20",
+    "npm": ">=10"
+  },
+  "scripts": {
+    "start": "wp-scripts start",
+    "build": "wp-scripts build",
+    "format": "wp-scripts format",
+    "lint:js": "wp-scripts lint-js src",
+    "lint:css": "wp-scripts lint-style \"src/scss/**/*.scss\"",
+    "lint:php": "composer lint:php",
+    "lint": "npm run lint:js && npm run lint:css && npm run lint:php",
+    "test:js": "wp-scripts test-unit-js",
+    "test:php": "composer test",
+    "test": "npm run test:js && npm run test:php",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "swiper": "^11.1.14",
+    "heic2any": "^0.0.4"
+  },
+  "devDependencies": {
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "@wordpress/scripts": "^28.0.0",
+    "husky": "^9.1.6",
+    "lint-staged": "^15.2.10"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "wp-scripts lint-js"
+    ],
+    "src/scss/**/*.scss": [
+      "wp-scripts lint-style"
+    ],
+    "**/*.php": [
+      "vendor/bin/phpcs"
+    ]
+  }
+}
